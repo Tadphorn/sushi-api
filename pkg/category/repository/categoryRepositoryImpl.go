@@ -3,7 +3,6 @@ package repository
 import (
 	"sushi-api/databases"
 	"sushi-api/entities"
-	_categoryModel "sushi-api/pkg/category/model"
 
 	"github.com/labstack/echo/v4"
 )
@@ -38,10 +37,30 @@ func (r *CategoryRepositoryImpl) CreateCategory(category *entities.Category) (*e
 	return category, nil
 }
 
-func (r *CategoryRepositoryImpl) EditCategory(categoryID string, newCategory *_categoryModel.CategoryReq) error {
-	panic("implement me")
+func (r *CategoryRepositoryImpl) EditCategory(categoryID string, newCategory *entities.Category) error {
+	result := r.db.Connect().Model(&entities.Category{}).Where("category_id = ?", categoryID).Updates(entities.Category{
+		CategoryName: newCategory.CategoryName,
+		CategoryNo:   newCategory.CategoryNo,
+	})
+	if result.Error != nil {
+		r.logger.Error(result.Error)
+		return result.Error
+	}
+
+	return nil
 }
 
 func (r *CategoryRepositoryImpl) DeleteCategory(categoryID string) error {
 	panic("implement me")
+}
+
+func (r *CategoryRepositoryImpl) FindByID(categoryID string) error {
+	var category *entities.Category
+	query := r.db.Connect().Model(&entities.Category{}).Where("category_id = ?", categoryID).First(&category)
+	if query.Error != nil {
+		r.logger.Error(query.Error)
+		return query.Error
+	}
+
+	return nil
 }

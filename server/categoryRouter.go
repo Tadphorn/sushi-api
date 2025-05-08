@@ -15,4 +15,5 @@ func (s *echoServer) initCategoryRouter() {
 
 	router.POST("/create", categoryController.CreateCategory)
 	router.GET("/getall", categoryController.GetAllCategory)
+	router.PUT("/edit/:id", categoryController.EditCategory)
 }

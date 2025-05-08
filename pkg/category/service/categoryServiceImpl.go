@@ -27,6 +27,25 @@ func (s *CategoryServiceImpl) CreateCategory(category *_categoryModel.CategoryRe
 	return categoryEntityRes.ToModelCategory(), nil
 }
 
+func (s *CategoryServiceImpl) EditCategory(categoryID string, newCategory *_categoryModel.CategoryReq) error {
+	categoryEntity := &entities.Category{
+		CategoryName: newCategory.CategoryName,
+		CategoryNo:   newCategory.CategoryNo,
+	}
+
+	// Check is category exists
+	if err := s.categoryRepository.FindByID(categoryID); err != nil {
+		return err
+	}
+
+	err := s.categoryRepository.EditCategory(categoryID, categoryEntity)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (s *CategoryServiceImpl) GetAllCategory() ([]*_categoryModel.Category, error) {
 	categories, err := s.categoryRepository.GetAllCategory()
 	if err != nil {

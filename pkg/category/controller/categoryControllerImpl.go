@@ -37,6 +37,26 @@ func (c *CategoryControllerImpl) CreateCategory(pctx echo.Context) error {
 	return pctx.JSON(http.StatusCreated, category)
 }
 
+func (c *CategoryControllerImpl) EditCategory(pctx echo.Context) error {
+	categoryID := pctx.Param("id")
+
+	editCategoryReq := new(_categoryModel.CategoryReq)
+	if err := pctx.Bind(&editCategoryReq); err != nil {
+		return pctx.JSON(http.StatusBadRequest, echo.Map{
+			"error": "Invalid request body",
+		})
+	}
+
+	err := c.categoryService.EditCategory(categoryID, editCategoryReq)
+	if err != nil {
+		return pctx.JSON(http.StatusInternalServerError, echo.Map{
+			"error": "Failed to edit category",
+		})
+	}
+
+	return pctx.JSON(http.StatusOK, categoryID)
+}
+
 func (c *CategoryControllerImpl) GetAllCategory(pctx echo.Context) error {
 	categories, err := c.categoryService.GetAllCategory()
 	if err != nil {

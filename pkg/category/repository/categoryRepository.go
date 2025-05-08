@@ -2,12 +2,12 @@ package repository
 
 import (
 	"sushi-api/entities"
-	_categoryModel "sushi-api/pkg/category/model"
 )
 
 type CategoryRepository interface {
 	GetAllCategory() ([]*entities.Category, error)
 	CreateCategory(category *entities.Category) (*entities.Category, error)
-	EditCategory(categoryID string, newCategory *_categoryModel.CategoryReq) error
+	EditCategory(categoryID string, newCategory *entities.Category) error
 	DeleteCategory(categoryID string) error
+	FindByID(categoryID string) error
 }
