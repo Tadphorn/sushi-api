@@ -3,7 +3,7 @@ package entities
 import "time"
 
 type Customer struct {
-	CustomerID    string    `gorm:"primaryKey;autoIncrement;"`
+	CustomerID    string    `gorm:"type:uuid;primary_key;"`
 	CustomerTable string    `gorm:"type:varchar(64);not null;"`
-	CreateAt      time.Time `gorm:"not null;autoCreateTime;"`
+	CreatedAt     time.Time `gorm:"not null;autoCreateTime;"`
 }
