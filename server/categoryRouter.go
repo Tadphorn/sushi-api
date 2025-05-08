@@ -14,4 +14,5 @@ func (s *echoServer) initCategoryRouter() {
 	categoryController := _categoryController.NewCategoryControllerImpl(categoryService)
 
 	router.POST("/create", categoryController.CreateCategory)
+	router.GET("/getall", categoryController.GetAllCategory)
 }

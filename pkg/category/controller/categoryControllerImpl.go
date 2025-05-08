@@ -36,3 +36,14 @@ func (c *CategoryControllerImpl) CreateCategory(pctx echo.Context) error {
 
 	return pctx.JSON(http.StatusCreated, category)
 }
+
+func (c *CategoryControllerImpl) GetAllCategory(pctx echo.Context) error {
+	categories, err := c.categoryService.GetAllCategory()
+	if err != nil {
+		return pctx.JSON(http.StatusInternalServerError, echo.Map{
+			"error": "Failed to fetch categories",
+		})
+	}
+
+	return pctx.JSON(http.StatusOK, categories)
+}

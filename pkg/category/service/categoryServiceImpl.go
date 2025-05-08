@@ -27,6 +27,18 @@ func (s *CategoryServiceImpl) CreateCategory(category *_categoryModel.CategoryRe
 	return categoryEntityRes.ToModelCategory(), nil
 }
 
-// func (s CategoryServiceImpl) gennerateCategoryID() string {
+func (s *CategoryServiceImpl) GetAllCategory() ([]*_categoryModel.Category, error) {
+	categories, err := s.categoryRepository.GetAllCategory()
+	if err != nil {
+		return nil, err
+	}
 
-// }
+	// Convert entities to model
+	categoriesModel := make([]*_categoryModel.Category, 0)
+	for _, category := range categories {
+		categoriesModel = append(categoriesModel, category.ToModelCategory())
+	}
+
+	return categoriesModel, nil
+
+}

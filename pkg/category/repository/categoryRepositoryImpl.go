@@ -18,7 +18,15 @@ func NewCategoryRepositoryImpl(db databases.Database, logger echo.Logger) Catego
 }
 
 func (r *CategoryRepositoryImpl) GetAllCategory() ([]*entities.Category, error) {
-	panic("implement me")
+	categories := make([]*entities.Category, 0)
+	query := r.db.Connect().Model(&entities.Category{}).Order("category_no").Find(&categories)
+
+	if query.Error != nil {
+		r.logger.Error(query.Error)
+		return nil, query.Error
+	}
+
+	return categories, nil
 }
 
 func (r *CategoryRepositoryImpl) CreateCategory(category *entities.Category) (*entities.Category, error) {
