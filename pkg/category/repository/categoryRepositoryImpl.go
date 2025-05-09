@@ -51,7 +51,12 @@ func (r *CategoryRepositoryImpl) EditCategory(categoryID string, newCategory *en
 }
 
 func (r *CategoryRepositoryImpl) DeleteCategory(categoryID string) error {
-	panic("implement me")
+	query := r.db.Connect().Model(&entities.Category{}).Where("category_id = ?", categoryID).Delete(&entities.Category{})
+	if query.Error != nil {
+		r.logger.Error(query.Error)
+		return query.Error
+	}
+	return nil
 }
 
 func (r *CategoryRepositoryImpl) FindByID(categoryID string) error {

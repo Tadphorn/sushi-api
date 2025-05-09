@@ -59,5 +59,18 @@ func (s *CategoryServiceImpl) GetAllCategory() ([]*_categoryModel.Category, erro
 	}
 
 	return categoriesModel, nil
+}
 
+func (s *CategoryServiceImpl) DeleteCategory(categoryID string) error {
+	// Check is category exists
+	if err := s.categoryRepository.FindByID(categoryID); err != nil {
+		return err
+	}
+
+	err := s.categoryRepository.DeleteCategory(categoryID)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

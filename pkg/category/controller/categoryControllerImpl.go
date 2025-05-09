@@ -67,3 +67,15 @@ func (c *CategoryControllerImpl) GetAllCategory(pctx echo.Context) error {
 
 	return pctx.JSON(http.StatusOK, categories)
 }
+
+func (c *CategoryControllerImpl) DeleteCategory(pctx echo.Context) error {
+	categoryID := pctx.Param("id")
+
+	if err := c.categoryService.DeleteCategory(categoryID); err != nil {
+		return pctx.JSON(http.StatusInternalServerError, echo.Map{
+			"error": "Failed to delete category",
+		})
+	}
+
+	return pctx.JSON(http.StatusOK, categoryID)
+}
