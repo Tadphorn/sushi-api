@@ -49,6 +49,7 @@ func (s *echoServer) Start() {
 	// Declare Router
 	s.app.GET("/v1/health", s.healthCheck)
 	s.initCategoryRouter()
+	s.initMenuRouter()
 
 	quitCh := make(chan os.Signal, 1)
 	signal.Notify(quitCh, syscall.SIGINT, syscall.SIGTERM)
